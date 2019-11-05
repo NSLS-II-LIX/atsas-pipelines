@@ -1,0 +1,10 @@
+[flake8]
+exclude =
+    .git,
+    __pycache__,
+    build,
+    dist,
+    versioneer.py,
+    atsas_pipelines/_version.py,
+    docs/source/conf.py
+max-line-length = 115
