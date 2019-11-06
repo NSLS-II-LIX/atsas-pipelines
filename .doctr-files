@@ -1,7 +1,10 @@
+./_modules/atsas_pipelines/run_calc.html
+./_modules/index.html
 ./_sources/index.rst.txt
 ./_sources/installation.rst.txt
 ./_sources/links.rst.txt
 ./_sources/min_versions.rst.txt
+./_sources/reference.rst.txt
 ./_sources/release-history.rst.txt
 ./_sources/usage.rst.txt
 ./_static/basic.css
@@ -66,6 +69,7 @@
 ./links.html
 ./min_versions.html
 ./objects.inv
+./reference.html
 ./release-history.html
 ./search.html
 ./searchindex.js

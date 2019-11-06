@@ -14,3 +14,4 @@ ATSAS pipelines Documentation
    links
    release-history
    min_versions
+   reference

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; ATSAS pipelines 0.0.1.post3+gfa3a386 documentation</title>
+  <title>Reference &mdash; ATSAS pipelines 0.0.1.post3+gfa3a386 documentation</title>
   
 
   
@@ -38,8 +38,7 @@
   <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Usage" href="usage.html" />
-    <link rel="prev" title="ATSAS pipelines Documentation" href="index.html" /> 
+    <link rel="prev" title="Minimum Version of Python and NumPy" href="min_versions.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,22 +87,12 @@
             
             
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#preparation">Preparation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#install-the-atsas-pipelines-package">Install the <code class="docutils literal notranslate"><span class="pre">atsas-pipelines</span></code> package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pypi">PyPI</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#conda">Conda</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#development-mode">Development mode</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="links.html">Links</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release-history.html">Release History</a></li>
 <li class="toctree-l1"><a class="reference internal" href="min_versions.html">Minimum Version of Python and NumPy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a></li>
 </ul>
 
             
@@ -149,13 +138,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Installation</li>
+      <li>Reference</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/reference.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,50 +157,48 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
-<p>Install the ATSAS software package for your system from
-<a class="reference external" href="https://www.embl-hamburg.de/biosaxs/atsas-online/download.php">https://www.embl-hamburg.de/biosaxs/atsas-online/download.php</a> after
-registration.</p>
-</div>
-<div class="section" id="preparation">
-<h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h2>
-<p>Create a conda environment:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda create -y -n atsas python=3.7 ipython
-$ conda activate atsas  # or &#39;source activate atsas&#39;
-</pre></div>
-</div>
-</div>
-<div class="section" id="install-the-atsas-pipelines-package">
-<h2>Install the <code class="docutils literal notranslate"><span class="pre">atsas-pipelines</span></code> package<a class="headerlink" href="#install-the-atsas-pipelines-package" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="pypi">
-<h3>PyPI<a class="headerlink" href="#pypi" title="Permalink to this headline">¶</a></h3>
-<p>Install from PyPI:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install atsas-pipelines
-</pre></div>
-</div>
-</div>
-<div class="section" id="conda">
-<h3>Conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h3>
-<p>Install from conda:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda install -c nsls2forge atsas-pipelines
-</pre></div>
-</div>
-</div>
-<div class="section" id="development-mode">
-<h3>Development mode<a class="headerlink" href="#development-mode" title="Permalink to this headline">¶</a></h3>
-<p>For the development mode, follow the steps below to install the
-<code class="docutils literal notranslate"><span class="pre">atsas-pipelines</span></code> package from source:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/mrakitin/atsas-pipelines
-$ cd atsas-pipelines
-$ pip install -r requirements-dev.txt
-$ pip install -ve .
-</pre></div>
-</div>
-</div>
-</div>
+  <div class="section" id="reference">
+<h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="atsas_pipelines.run_calc.run_with_dask">
+<code class="sig-prename descclassname">atsas_pipelines.run_calc.</code><code class="sig-name descname">run_with_dask</code><span class="sig-paren">(</span><em class="sig-param">exec_name</em>, <em class="sig-param">input_file</em>, <em class="sig-param">prefix='test'</em>, <em class="sig-param">symmetry='P1'</em>, <em class="sig-param">mode='FAST'</em>, <em class="sig-param">n_repeats=1</em>, <em class="sig-param">dask_client_type='local'</em>, <em class="sig-param">n_workers=1</em>, <em class="sig-param">queue=None</em>, <em class="sig-param">memory=None</em>, <em class="sig-param">wait=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/atsas_pipelines/run_calc.html#run_with_dask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atsas_pipelines.run_calc.run_with_dask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run parallel jobs with Dask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>exec_name</strong><span class="classifier">str</span></dt><dd><p>the name of the executable</p>
+</dd>
+<dt><strong>input_file</strong><span class="classifier">str</span></dt><dd><p>the name of the input file. Example: <code class="docutils literal notranslate"><span class="pre">examples/IgG_0152-0159s.out</span></code></p>
+</dd>
+<dt><strong>prefix</strong><span class="classifier">str, optional</span></dt><dd><p>dammif input: the prefix to prepend to any output filename (default:
+dammif)</p>
+</dd>
+<dt><strong>symmetry</strong><span class="classifier">str, optional</span></dt><dd><p>dammif input: particle symmetry</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>dammif input: one of: FAST, SLOW, INTERACTIVE (default: interactive)</p>
+</dd>
+<dt><strong>n_repeats</strong><span class="classifier">int, optional</span></dt><dd><p>a number of repeats of a simulation (to collect statistics, the
+randomness is comming from the program itself)</p>
+</dd>
+<dt><strong>dask_client_type</strong><span class="classifier">str, optional</span></dt><dd><p>a dask client type, can be one of <code class="docutils literal notranslate"><span class="pre">local</span></code> or <code class="docutils literal notranslate"><span class="pre">slurm</span></code></p>
+</dd>
+<dt><strong>n_workers</strong><span class="classifier">int, optional</span></dt><dd><p>a number of workers for the dask cluster</p>
+</dd>
+<dt><strong>queue</strong><span class="classifier">str or None, optional</span></dt><dd><p>the name of the queue passed to the Slurm cluster (only applicable to
+<code class="docutils literal notranslate"><span class="pre">dask_client_type='slurm'</span></code>)</p>
+</dd>
+<dt><strong>memory</strong><span class="classifier">str or None, optional</span></dt><dd><p>the amount of memory to be used by each job of the Slurm cluster (only
+applicable to <code class="docutils literal notranslate"><span class="pre">dask_client_type='slurm'</span></code>)</p>
+</dd>
+<dt><strong>wait</strong><span class="classifier">bool, optional</span></dt><dd><p>if True, wait until all the jobs are finished, and then downscale the
+cluster resources
+if False, do not wait and do not downscale</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 
 
@@ -222,10 +209,8 @@ $ pip install -ve .
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="index.html" class="btn btn-neutral float-left" title="ATSAS pipelines Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="min_versions.html" class="btn btn-neutral float-left" title="Minimum Version of Python and NumPy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
