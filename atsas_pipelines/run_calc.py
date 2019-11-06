@@ -144,6 +144,6 @@ def run_with_dask(exec_name,
 
     if wait:
         client.gather(futures)
-        client.cluster.scale(jobs=0)
+        client.cluster.close()
 
     return client, futures
