@@ -1,6 +1,8 @@
 import subprocess
-from .utils import find_executable
+
 from dask.distributed import Client
+
+from .utils import find_executable
 
 
 def run_calc(exec_name, inputs=None, *args, **kwargs):
@@ -52,12 +54,43 @@ def run_calc(exec_name, inputs=None, *args, **kwargs):
     return st
 
 
+def local_dask_client(n_workers=1):
+    client = Client(threads_per_worker=n_workers,
+                    n_workers=n_workers)
+    return client
+
+
+def slurm_dask_client(n_workers=1, queue=None, memory=None):
+    from dask_jobqueue import SLURMCluster
+
+    if queue is None:
+        queue = 'lix-atsas'
+    if memory is None:
+        memory = '4GB'
+
+    cluster = SLURMCluster(queue=queue, cores=n_workers, memory=memory)
+    cluster.scale(jobs=n_workers)
+    client = Client(cluster)
+    return client
+
+
 def run_with_dask(exec_name,
                   input_file, prefix='test', symmetry='P1', mode='FAST',
-                  n_repeats=1,
-                  threads_per_worker=4, n_workers=1):
-    client = Client(threads_per_worker=threads_per_worker,
-                    n_workers=n_workers)
+                  n_repeats=1, dask_client_type='local', n_workers=1,
+                  queue=None, memory=None):
+
+    supported_dask_clients = ('local', 'slurm')
+    assert dask_client_type in supported_dask_clients, \
+        (f'The specified dask client type "{dask_client_type}" '
+         f'is not in the supported clients list: {supported_dask_clients}')
+
+    if dask_client_type == 'local':
+        client = local_dask_client(n_workers=n_workers)
+    elif dask_client_type == 'slurm':
+        client = slurm_dask_client(n_workers=n_workers,
+                                   queue=queue, memory=memory)
+    else:
+        raise NotImplementedError
 
     futures = []
     for i in range(n_repeats):
