@@ -1,5 +1,6 @@
 ./_sources/index.rst.txt
 ./_sources/installation.rst.txt
+./_sources/links.rst.txt
 ./_sources/min_versions.rst.txt
 ./_sources/release-history.rst.txt
 ./_sources/usage.rst.txt
@@ -62,6 +63,7 @@
 ./genindex.html
 ./index.html
 ./installation.html
+./links.html
 ./min_versions.html
 ./objects.inv
 ./release-history.html
