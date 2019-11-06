@@ -77,8 +77,41 @@ def slurm_dask_client(n_workers=1, queue=None, memory=None):
 def run_with_dask(exec_name,
                   input_file, prefix='test', symmetry='P1', mode='FAST',
                   n_repeats=1, dask_client_type='local', n_workers=1,
-                  queue=None, memory=None):
+                  queue=None, memory=None, wait=False):
+    """
+    Run parallel jobs with Dask.
 
+    Parameters
+    ----------
+    exec_name : str
+        the name of the executable
+    input_file : str
+        the name of the input file. Example: ``examples/IgG_0152-0159s.out``
+    prefix : str, optional
+        dammif input: the prefix to prepend to any output filename (default:
+        dammif)
+    symmetry : str, optional
+        dammif input: particle symmetry
+    mode : str, optional
+        dammif input: one of: FAST, SLOW, INTERACTIVE (default: interactive)
+    n_repeats : int, optional
+        a number of repeats of a simulation (to collect statistics, the
+        randomness is comming from the program itself)
+    dask_client_type : str, optional
+        a dask client type, can be one of ``local`` or ``slurm``
+    n_workers : int, optional
+        a number of workers for the dask cluster
+    queue : str or None, optional
+        the name of the queue passed to the Slurm cluster (only applicable to
+        ``dask_client_type='slurm'``)
+    memory : str or None, optional
+        the amount of memory to be used by each job of the Slurm cluster (only
+        applicable to ``dask_client_type='slurm'``)
+    wait : bool, optional
+        if True, wait until all the jobs are finished, and then downscale the
+        cluster resources
+        if False, do not wait and do not downscale
+    """
     supported_dask_clients = ('local', 'slurm')
     assert dask_client_type in supported_dask_clients, \
         (f'The specified dask client type "{dask_client_type}" '
@@ -104,4 +137,9 @@ def run_with_dask(exec_name,
                                stderr=subprocess.STDOUT,
                                shell=False, check=True)
         futures.append(future)
+
+    if wait:
+        client.gather(futures)
+        client.cluster.scale(jobs=0)
+
     return client, futures
