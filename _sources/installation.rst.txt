@@ -11,7 +11,13 @@ Create a conda environment::
     $ conda create -y -n atsas python=3.7
     $ conda activate atsas  # or 'source activate atsas'
 
-Install the ``atsas-pipelines`` package from source::
+Install from PyPI::
+
+    $ pip install atsas-pipelines
+
+
+For the development mode, follow the steps below to install the
+``atsas-pipelines`` package from source::
 
     $ git clone https://github.com/mrakitin/atsas-pipelines
     $ cd atsas-pipelines
