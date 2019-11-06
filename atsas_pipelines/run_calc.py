@@ -54,21 +54,25 @@ def run_calc(exec_name, inputs=None, *args, **kwargs):
     return st
 
 
-def local_dask_client(n_workers=1):
-    client = Client(threads_per_worker=n_workers,
+def local_dask_client(n_workers=1, threads_per_worker=None):
+    if threads_per_worker is None:
+        threads_per_worker = 1
+    client = Client(threads_per_worker=threads_per_worker,
                     n_workers=n_workers)
     return client
 
 
-def slurm_dask_client(n_workers=1, queue=None, memory=None):
+def slurm_dask_client(n_workers=1, queue=None, cores=None, memory=None):
     from dask_jobqueue import SLURMCluster
 
     if queue is None:
         queue = 'lix-atsas'
+    if cores is None:
+        cores = 1
     if memory is None:
         memory = '4GB'
 
-    cluster = SLURMCluster(queue=queue, cores=n_workers, memory=memory)
+    cluster = SLURMCluster(queue=queue, cores=cores, memory=memory)
     cluster.scale(jobs=n_workers)
     client = Client(cluster)
     return client
