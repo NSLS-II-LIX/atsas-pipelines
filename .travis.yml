@@ -1,10 +1,17 @@
 language: python
-python:
-  - 3.6
+
+env:
+  global:
+    # Doctr deploy key for mrakitin/atsas-pipelines
+    - secure: "yP8pbZXixRew2dZ4NoU7s7jSDHN3bSJw1xUfPIgcGcp4jCU/NR6s79/Nw0gPj1446SWPwQs4eCnuP5ANlUQJ/RqyfLzE4hRhkcIfrwS6alfR4JnVuCFFaDP3n8ErViNAAlXdY0+l2Rm5PLDQG1mw7o1PyKHvIy4HCV3qqutqGNAFO0Hkab4Z3FUpnjJdAJMONXahIRZqshGX5B+ckMK8oM6leQBXrVZHaR8aXKCu4DBj1HUZ6Auv1Uy6EhXLIJKqOsgPOXIjXQEUeggoKXbSGlOMFuF6pgHeA3pvo5c7wDlioNIjm2+nN24FUrkwLNQH06HABYS+jvUN8/zqj+rEx9m+t/44ESNQGJbgxslvlSS656YbiDrXV5ISnHbwp2bXpzUQZxXtyZUaBqD/KmYLYcu/fVcwKmnA82ytD36PO6jVAJiN0d7jQWLgkGA1hbZJlCVJARRVK8S2lN9q4KP7Di0sFyrDxOBvjequovNQie28lG9SRMX5cLIelukUByzYviPDWsZqIaYfnGFftWiTw0RTCqpW0IZWAPtGNGYvJ9sEs5UYAsZ+T6XFkWZoNTHH6h1SAVC8HeVoL+be5OsPx1zb9NEIKdMBBV4t2WmUto6twglClkbcivdt5y5LHrwMH9WkEoctH8nCKiQu/iUPjtQkhsSY0grHQsGBR37sjQ0="
+
 cache:
   directories:
     - $HOME/.cache/pip
     - $HOME/.ccache  # https://github.com/travis-ci/travis-ci/issues/5853
+
+python:
+  - 3.7
 
 install:
   # Install this package and the packages listed in requirements.txt.
@@ -19,3 +26,5 @@ script:
   - pytest -vvvv
   - flake8  # Enforce code style ('relaxed' line length limit is set in .flake8 config file).
   - make -C docs html  # Build the documentation.
+  - pip install doctr
+  - doctr deploy --built-docs docs/build/html .
