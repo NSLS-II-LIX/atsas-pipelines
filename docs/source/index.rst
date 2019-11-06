@@ -11,5 +11,6 @@ ATSAS pipelines Documentation
 
    installation
    usage
+   links
    release-history
    min_versions
