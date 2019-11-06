@@ -143,8 +143,7 @@ def run_with_dask(exec_name,
         futures.append(future)
 
     if wait:
-        client.gather(futures)
-        if dask_client_type == 'slurm':
-            client.cluster.scale(jobs=0)
+        futures = client.gather(futures)
+        client.cluster.close()
 
     return client, futures
