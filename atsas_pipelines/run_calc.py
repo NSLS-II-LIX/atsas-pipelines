@@ -13,7 +13,7 @@ def run_calc(exec_name, inputs=None, *args, **kwargs):
         the name of the executable
     inputs : list
         input parameters to pass to the executable
-    
+
     $ dammif --help
     Usage: dammif [OPTIONS] <GNOMFILE>
 
@@ -45,17 +45,14 @@ def run_calc(exec_name, inputs=None, *args, **kwargs):
         inputs = []
 
     exec_path = find_executable(exec_name)
-    print(exec_path)
-
     cmd = [exec_path] + inputs
-    
-    print(cmd)
 
     st = subprocess.run(cmd, *args, **kwargs)
+
     return st
 
 
-def run_with_dask(exec_name, 
+def run_with_dask(exec_name,
                   input_file, prefix='test', symmetry='P1', mode='FAST',
                   n_repeats=1,
                   threads_per_worker=4, n_workers=1):
