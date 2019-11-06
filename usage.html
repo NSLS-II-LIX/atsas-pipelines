@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Usage &mdash; ATSAS pipelines 0.post12+g1435faa documentation</title>
+  <title>Usage &mdash; ATSAS pipelines 0.post14+ge14a149 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.post12+g1435faa
+                0.post14+ge14a149
               </div>
             
           
@@ -158,8 +158,16 @@
             
   <div class="section" id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
-<p>Start by importing ATSAS pipelines.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">atsas_pipelines</span>
+<p>Run the 32 separate ATSAS simulations on 12 Dask workers.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">atsas_pipelines.run_calc</span> <span class="kn">import</span> <span class="n">run_with_dask</span>
+<span class="n">client</span><span class="p">,</span> <span class="n">futures</span> <span class="o">=</span> <span class="n">run_with_dask</span><span class="p">(</span><span class="s1">&#39;dammif&#39;</span><span class="p">,</span> <span class="s1">&#39;examples/IgG_0152-0159s.out&#39;</span><span class="p">,</span>
+                                <span class="n">n_repeats</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">threads_per_worker</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                <span class="n">n_workers</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">futures</span><span class="p">)</span>
+<span class="n">fut</span> <span class="o">=</span> <span class="n">futures</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">fut</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">fut</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

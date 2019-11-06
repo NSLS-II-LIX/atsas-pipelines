@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; ATSAS pipelines 0.post12+g1435faa documentation</title>
+  <title>Installation &mdash; ATSAS pipelines 0.post14+ge14a149 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.post12+g1435faa
+                0.post14+ge14a149
               </div>
             
           
@@ -158,8 +158,16 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>At the command line:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install atsas-pipelines
+<p>Create a conda environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda create -y -n atsas python=3.7
+$ conda activate atsas  # or &#39;source activate atsas&#39;
+</pre></div>
+</div>
+<p>Install the package from source:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/mrakitin/atsas-pipelines
+$ cd atsas-pipelines
+$ pip install -r requirements-dev.txt
+$ pip install -ve .
 </pre></div>
 </div>
 </div>
