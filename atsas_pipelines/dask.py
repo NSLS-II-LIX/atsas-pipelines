@@ -1,8 +1,8 @@
 from dask_jobqueue import SLURMCluster
+
 from dask.distributed import Client
 
-
-DEFAULT_QUEUE= 'lix-atsas'
+DEFAULT_QUEUE = 'lix-atsas'
 DEFAULT_NUM_CORES = 1
 DEFAULT_MEMORY = '4GB'
 DEFAULT_MINIMUM_WORKERS = 0

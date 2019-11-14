@@ -1,7 +1,5 @@
 import subprocess
 
-from dask.distributed import Client
-
 from .utils import find_executable
 
 
