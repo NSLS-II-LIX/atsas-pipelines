@@ -1,4 +1,4 @@
 Reference
 =========
 
-.. autofunction:: atsas_pipelines.run_calc.run_with_dask
+.. autofunction:: atsas_pipelines.run.run_with_dask

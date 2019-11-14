@@ -46,7 +46,7 @@ setup(
     packages=find_packages(exclude=['docs', 'tests']),
     entry_points={
         'console_scripts': [
-            # 'command = some.module:some_function',
+            'dask-slurm-cluster = atsas_pipelines.cli:run_cluster',
         ],
     },
     include_package_data=True,
