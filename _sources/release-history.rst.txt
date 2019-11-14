@@ -2,6 +2,18 @@
 Release History
 ===============
 
+v0.0.2
+------
+
+The release has a refactored code to have a better modularization of the pieces
+(instantiation of the cluster and client are done separately from running the
+simulations). 
+
+Install it from PyPI with::
+
+    $ pip install atsas-pipelines==0.0.2
+
+
 v0.0.1
 ------
 

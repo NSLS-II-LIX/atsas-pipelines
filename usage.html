@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Usage &mdash; ATSAS pipelines 0.0.1.post3+gfa3a386 documentation</title>
+  <title>Usage &mdash; ATSAS pipelines 0.0.1.post11+gbbc8129 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.0.1.post3+gfa3a386
+                0.0.1.post11+gbbc8129
               </div>
             
           
@@ -92,9 +92,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#run-atsas-tools-in-command-line">Run ATSAS tools in command line</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#run-atsas-tools-from-python-using-dask">Run ATSAS tools from Python using Dask</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#asynchronous-mode">Asynchronous mode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#synchronous-mode-local-cluster">Synchronous mode (local cluster)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#synchronous-mode-slurm-cluster">Synchronous mode (Slurm cluster)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#local-cluster">Local cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#slurm-cluster">Slurm cluster</a></li>
 </ul>
 </li>
 </ul>
@@ -180,40 +179,36 @@
 <h2>Run ATSAS tools from Python using Dask<a class="headerlink" href="#run-atsas-tools-from-python-using-dask" title="Permalink to this headline">¶</a></h2>
 <p>Start an IPython session with <code class="docutils literal notranslate"><span class="pre">ipython</span></code> to perform the following
 calculations.</p>
-<div class="section" id="asynchronous-mode">
-<h3>Asynchronous mode<a class="headerlink" href="#asynchronous-mode" title="Permalink to this headline">¶</a></h3>
-<p>Run 36 separate ATSAS simulations on 12 workers of a local Dask cluster in an
-asynchronous mode.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">atsas_pipelines.run_calc</span> <span class="kn">import</span> <span class="n">run_with_dask</span>
-<span class="n">client</span><span class="p">,</span> <span class="n">futures</span> <span class="o">=</span> <span class="n">run_with_dask</span><span class="p">(</span><span class="s1">&#39;dammif&#39;</span><span class="p">,</span> <span class="s1">&#39;examples/IgG_0152-0159s.out&#39;</span><span class="p">,</span>
-                                <span class="n">n_repeats</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">n_workers</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<div class="section" id="local-cluster">
+<h3>Local cluster<a class="headerlink" href="#local-cluster" title="Permalink to this headline">¶</a></h3>
+<p>Run 36 separate ATSAS simulations on a local Dask cluster.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">atsas_pipelines.dask</span> <span class="kn">import</span> <span class="n">dask_client</span>
+<span class="kn">from</span> <span class="nn">atsas_pipelines.run</span> <span class="kn">import</span> <span class="n">run_with_dask</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">dask_client</span><span class="p">()</span>
+<span class="n">futures</span> <span class="o">=</span> <span class="n">run_with_dask</span><span class="p">(</span><span class="s1">&#39;dammif&#39;</span><span class="p">,</span> <span class="s1">&#39;examples/IgG_0152-0159s.out&#39;</span><span class="p">,</span>
+                        <span class="n">n_repeats</span><span class="o">=</span><span class="mi">36</span><span class="p">)</span>
 <span class="n">client</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">futures</span><span class="p">)</span>
 <span class="n">fut</span> <span class="o">=</span> <span class="n">futures</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">fut</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
 <span class="n">out</span> <span class="o">=</span> <span class="n">fut</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-<span class="n">client</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="synchronous-mode-local-cluster">
-<h3>Synchronous mode (local cluster)<a class="headerlink" href="#synchronous-mode-local-cluster" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">atsas_pipelines.run_calc</span> <span class="kn">import</span> <span class="n">run_with_dask</span>
-<span class="n">client</span><span class="p">,</span> <span class="n">futures</span> <span class="o">=</span> <span class="n">run_with_dask</span><span class="p">(</span><span class="s1">&#39;dammif&#39;</span><span class="p">,</span> <span class="s1">&#39;examples/IgG_0152-0159s.out&#39;</span><span class="p">,</span>
-                                <span class="n">n_repeats</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">n_workers</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
-                                <span class="n">dask_client_type</span><span class="o">=</span><span class="s1">&#39;local&#39;</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="section" id="slurm-cluster">
+<h3>Slurm cluster<a class="headerlink" href="#slurm-cluster" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">atsas_pipelines.dask</span> <span class="kn">import</span> <span class="n">dask_client</span><span class="p">,</span> <span class="n">dask_slurm_cluster</span>
+<span class="kn">from</span> <span class="nn">atsas_pipelines.run</span> <span class="kn">import</span> <span class="n">run_with_dask</span>
+
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">dask_slurm_cluster</span><span class="p">()</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">dask_client</span><span class="p">(</span><span class="n">cluster</span><span class="p">)</span>
+
+<span class="n">futures</span> <span class="o">=</span> <span class="n">run_with_dask</span><span class="p">(</span><span class="s1">&#39;dammif&#39;</span><span class="p">,</span> <span class="s1">&#39;examples/IgG_0152-0159s.out&#39;</span><span class="p">,</span>
+                        <span class="n">n_repeats</span><span class="o">=</span><span class="mi">36</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="synchronous-mode-slurm-cluster">
-<h3>Synchronous mode (Slurm cluster)<a class="headerlink" href="#synchronous-mode-slurm-cluster" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">atsas_pipelines.run_calc</span> <span class="kn">import</span> <span class="n">run_with_dask</span>
-<span class="n">client</span><span class="p">,</span> <span class="n">futures</span> <span class="o">=</span> <span class="n">run_with_dask</span><span class="p">(</span><span class="s1">&#39;dammif&#39;</span><span class="p">,</span> <span class="s1">&#39;examples/IgG_0152-0159s.out&#39;</span><span class="p">,</span>
-                                <span class="n">n_repeats</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">n_workers</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
-                                <span class="n">dask_client_type</span><span class="o">=</span><span class="s1">&#39;slurm&#39;</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>See <a class="reference internal" href="reference.html#atsas_pipelines.run_calc.run_with_dask" title="atsas_pipelines.run_calc.run_with_dask"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_with_dask()</span></code></a> for implementation.</p>
+<p>See <a class="reference internal" href="reference.html#atsas_pipelines.run.run_with_dask" title="atsas_pipelines.run.run_with_dask"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_with_dask()</span></code></a> for implementation.</p>
 </div>
 </div>
 </div>

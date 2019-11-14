@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Reference &mdash; ATSAS pipelines 0.0.1.post3+gfa3a386 documentation</title>
+  <title>Reference &mdash; ATSAS pipelines 0.0.1.post11+gbbc8129 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.0.1.post3+gfa3a386
+                0.0.1.post11+gbbc8129
               </div>
             
           
@@ -160,12 +160,14 @@
   <div class="section" id="reference">
 <h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
-<dt id="atsas_pipelines.run_calc.run_with_dask">
-<code class="sig-prename descclassname">atsas_pipelines.run_calc.</code><code class="sig-name descname">run_with_dask</code><span class="sig-paren">(</span><em class="sig-param">exec_name</em>, <em class="sig-param">input_file</em>, <em class="sig-param">prefix='test'</em>, <em class="sig-param">symmetry='P1'</em>, <em class="sig-param">mode='FAST'</em>, <em class="sig-param">n_repeats=1</em>, <em class="sig-param">dask_client_type='local'</em>, <em class="sig-param">n_workers=1</em>, <em class="sig-param">queue=None</em>, <em class="sig-param">memory=None</em>, <em class="sig-param">wait=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/atsas_pipelines/run_calc.html#run_with_dask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atsas_pipelines.run_calc.run_with_dask" title="Permalink to this definition">¶</a></dt>
+<dt id="atsas_pipelines.run.run_with_dask">
+<code class="sig-prename descclassname">atsas_pipelines.run.</code><code class="sig-name descname">run_with_dask</code><span class="sig-paren">(</span><em class="sig-param">client</em>, <em class="sig-param">exec_name</em>, <em class="sig-param">input_file</em>, <em class="sig-param">prefix='test'</em>, <em class="sig-param">symmetry='P1'</em>, <em class="sig-param">mode='FAST'</em>, <em class="sig-param">n_repeats=1</em>, <em class="sig-param">wait=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/atsas_pipelines/run.html#run_with_dask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atsas_pipelines.run.run_with_dask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run parallel jobs with Dask.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
+<dt><strong>client</strong><span class="classifier">dask.distributed.Client</span></dt><dd><p>an instance of the Dask client</p>
+</dd>
 <dt><strong>exec_name</strong><span class="classifier">str</span></dt><dd><p>the name of the executable</p>
 </dd>
 <dt><strong>input_file</strong><span class="classifier">str</span></dt><dd><p>the name of the input file. Example: <code class="docutils literal notranslate"><span class="pre">examples/IgG_0152-0159s.out</span></code></p>
@@ -180,19 +182,7 @@ dammif)</p>
 <dt><strong>n_repeats</strong><span class="classifier">int, optional</span></dt><dd><p>a number of repeats of a simulation (to collect statistics, the
 randomness is comming from the program itself)</p>
 </dd>
-<dt><strong>dask_client_type</strong><span class="classifier">str, optional</span></dt><dd><p>a dask client type, can be one of <code class="docutils literal notranslate"><span class="pre">local</span></code> or <code class="docutils literal notranslate"><span class="pre">slurm</span></code></p>
-</dd>
-<dt><strong>n_workers</strong><span class="classifier">int, optional</span></dt><dd><p>a number of workers for the dask cluster</p>
-</dd>
-<dt><strong>queue</strong><span class="classifier">str or None, optional</span></dt><dd><p>the name of the queue passed to the Slurm cluster (only applicable to
-<code class="docutils literal notranslate"><span class="pre">dask_client_type='slurm'</span></code>)</p>
-</dd>
-<dt><strong>memory</strong><span class="classifier">str or None, optional</span></dt><dd><p>the amount of memory to be used by each job of the Slurm cluster (only
-applicable to <code class="docutils literal notranslate"><span class="pre">dask_client_type='slurm'</span></code>)</p>
-</dd>
-<dt><strong>wait</strong><span class="classifier">bool, optional</span></dt><dd><p>if True, wait until all the jobs are finished, and then downscale the
-cluster resources
-if False, do not wait and do not downscale</p>
+<dt><strong>wait</strong><span class="classifier">bool, optional</span></dt><dd><p>wait until all the jobs are finished</p>
 </dd>
 </dl>
 </dd>
