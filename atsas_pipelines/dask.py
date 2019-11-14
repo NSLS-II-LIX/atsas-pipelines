@@ -1,6 +1,5 @@
-from dask_jobqueue import SLURMCluster
-
 from dask.distributed import Client
+from dask_jobqueue import SLURMCluster
 
 DEFAULT_QUEUE = 'lix-atsas'
 DEFAULT_NUM_CORES = 1
@@ -36,14 +35,14 @@ _doc_dask_slurm_cluster = \
 
 
 def dask_slurm_cluster(queue=None, cores=None, memory=None,
-                       minimum_workers=None, maximum_workers=None):
+                       minimum_workers=None, maximum_workers=None, **kwargs):
     queue = queue or DEFAULT_QUEUE
     cores = cores or DEFAULT_NUM_CORES
     memory = memory or DEFAULT_MEMORY
     minimum_workers = minimum_workers or DEFAULT_MINIMUM_WORKERS
     maximum_workers = maximum_workers or DEFAULT_MAXIMUM_WORKERS
 
-    cluster = SLURMCluster(queue=queue, cores=cores, memory=memory)
+    cluster = SLURMCluster(queue=queue, cores=cores, memory=memory, **kwargs)
     cluster.adapt(minimum=minimum_workers, maximum=maximum_workers)
     return cluster
 

@@ -1,4 +1,6 @@
 import argparse
+import asyncio
+import math
 
 from .dask import (DEFAULT_MAXIMUM_WORKERS, DEFAULT_MEMORY,
                    DEFAULT_MINIMUM_WORKERS, DEFAULT_NUM_CORES, DEFAULT_QUEUE,
@@ -33,9 +35,14 @@ def run_cluster():
                               f'Default: {DEFAULT_MAXIMUM_WORKERS}'))
 
     args = parser.parse_args()
-    cluster = dask_slurm_cluster(**args.__dict__)
-    return cluster
+    cluster = dask_slurm_cluster(asynchronous=True, **args.__dict__)
+
+    loop = asyncio.get_event_loop()
+    try:
+        loop.run_until_complete(asyncio.sleep(math.inf))
+    except Exception:
+        cluster.close()
 
 
 if __name__ == '__main__':
-    cluster = run_cluster()
+    run_cluster()
