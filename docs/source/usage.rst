@@ -18,43 +18,39 @@ Run ATSAS tools from Python using Dask
 Start an IPython session with ``ipython`` to perform the following
 calculations.
 
-Asynchronous mode
------------------
 
-Run 36 separate ATSAS simulations on 12 workers of a local Dask cluster in an
-asynchronous mode.
+Local cluster
+-------------
+
+Run 36 separate ATSAS simulations on a local Dask cluster.
 
 .. code-block:: python
 
-    from atsas_pipelines.run_calc import run_with_dask
-    client, futures = run_with_dask('dammif', 'examples/IgG_0152-0159s.out',
-                                    n_repeats=36, n_workers=12)
+    from atsas_pipelines.dask import dask_client
+    from atsas_pipelines.run import run_with_dask
+
+    client = dask_client()
+    futures = run_with_dask('dammif', 'examples/IgG_0152-0159s.out',
+                            n_repeats=36)
     client.gather(futures)
     fut = futures[0]
     fut.result()
     out = fut.result().stdout.decode('utf-8')
     print(out)
-    client.cluster.close()
 
-Synchronous mode (local cluster)
---------------------------------
 
-.. code-block:: python
-
-    from atsas_pipelines.run_calc import run_with_dask
-    client, futures = run_with_dask('dammif', 'examples/IgG_0152-0159s.out',
-                                    n_repeats=36, n_workers=12,
-                                    dask_client_type='local', wait=True)
-
-Synchronous mode (Slurm cluster)
---------------------------------
+Slurm cluster
+-------------
 
 .. code-block:: python
 
-    from atsas_pipelines.run_calc import run_with_dask
-    client, futures = run_with_dask('dammif', 'examples/IgG_0152-0159s.out',
-                                    n_repeats=36, n_workers=12,
-                                    dask_client_type='slurm', wait=True)
+    from atsas_pipelines.dask import dask_client, dask_slurm_cluster
+    from atsas_pipelines.run import run_with_dask
 
+    cluster = dask_slurm_cluster()
+    client = dask_client(cluster)
 
-See :func:`~atsas_pipelines.run_calc.run_with_dask` for implementation.
+    futures = run_with_dask('dammif', 'examples/IgG_0152-0159s.out',
+                            n_repeats=36)
+
+See :func:`~atsas_pipelines.run.run_with_dask` for implementation.
