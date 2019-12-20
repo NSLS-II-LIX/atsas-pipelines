@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>atsas_pipelines.run &mdash; ATSAS pipelines 0.0.1.post11+gbbc8129 documentation</title>
+  <title>atsas_pipelines.run &mdash; ATSAS pipelines 0.0.2.post3+g8d530fc documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.1.post11+gbbc8129
+                0.0.2.post3+g8d530fc
               </div>
             
           
@@ -157,7 +157,7 @@
   <h1>Source code for atsas_pipelines.run</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">subprocess</span>
 
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">find_executable</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">find_executable</span>
 
 
 <span class="k">def</span> <span class="nf">run_command</span><span class="p">(</span><span class="n">exec_name</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -247,9 +247,9 @@
         <span class="n">future</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">run_command</span><span class="p">,</span>
                                <span class="n">exec_name</span><span class="p">,</span>
                                <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">input_file</span><span class="p">,</span>
-                                       <span class="n">f</span><span class="s1">&#39;--prefix=</span><span class="si">{prefix}{i:02d}</span><span class="s1">&#39;</span><span class="p">,</span>
-                                       <span class="n">f</span><span class="s1">&#39;--symmetry=</span><span class="si">{symmetry}</span><span class="s1">&#39;</span><span class="p">,</span>
-                                       <span class="n">f</span><span class="s1">&#39;--mode=</span><span class="si">{mode}</span><span class="s1">&#39;</span><span class="p">],</span>
+                                       <span class="sa">f</span><span class="s1">&#39;--prefix=</span><span class="si">{prefix}{i:02d}</span><span class="s1">&#39;</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s1">&#39;--symmetry=</span><span class="si">{symmetry}</span><span class="s1">&#39;</span><span class="p">,</span>
+                                       <span class="sa">f</span><span class="s1">&#39;--mode=</span><span class="si">{mode}</span><span class="s1">&#39;</span><span class="p">],</span>
                                <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
                                <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
                                <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
