@@ -1,10 +1,14 @@
 import argparse
-import asyncio
-import math
+import logging
 
-from .dask import (DEFAULT_MAXIMUM_WORKERS, DEFAULT_MEMORY,
-                   DEFAULT_MINIMUM_WORKERS, DEFAULT_NUM_CORES, DEFAULT_QUEUE,
-                   dask_slurm_cluster)
+from distributed.cli.utils import check_python_3, install_signal_handlers
+from tornado.ioloop import IOLoop
+
+from .dask import (DEFAULT_ADDRESS, DEFAULT_MAXIMUM_WORKERS, DEFAULT_MEMORY,
+                   DEFAULT_MINIMUM_WORKERS, DEFAULT_NUM_CORES, DEFAULT_PORT,
+                   DEFAULT_QUEUE, dask_slurm_cluster)
+
+logger = logging.getLogger("atsas-pipelines")
 
 
 def run_cluster():
@@ -33,16 +37,41 @@ def run_cluster():
                         help=(f'the maximum number of workers to scale the '
                               f'cluster up to in the autoscale mode. '
                               f'Default: {DEFAULT_MAXIMUM_WORKERS}'))
-
+    parser.add_argument('--address', dest='address', type=str,
+                        default=DEFAULT_ADDRESS,
+                        help=(f"the network address to be assigned to the "
+                              f"cluster's scheduler. "
+                              f'Default: {DEFAULT_ADDRESS}'))
+    parser.add_argument('--port', dest='port', type=str,
+                        default=DEFAULT_PORT,
+                        help=(f"the network port to be assigned to the "
+                              f"cluster's scheduler. "
+                              f'Default: {DEFAULT_PORT}'))
     args = parser.parse_args()
-    cluster = dask_slurm_cluster(asynchronous=True, **args.__dict__)
 
-    loop = asyncio.get_event_loop()
+    cluster = dask_slurm_cluster(**args.__dict__)
+
+    print(f'Starting cluster {cluster.__repr__()}\n{args.__dict__}')
+
+    loop = IOLoop.current()
+    install_signal_handlers(loop)
+
+    async def run():
+        await cluster
+        await cluster.scheduler.finished()
+
     try:
-        loop.run_until_complete(asyncio.sleep(math.inf))
-    except Exception:
+        loop.run_sync(run)
+    finally:
         cluster.close()
 
+    print(f'End cluster {cluster.__repr__()}')
 
-if __name__ == '__main__':
+
+def go():
+    check_python_3()
     run_cluster()
+
+
+if __name__ == "__main__":
+    go()
