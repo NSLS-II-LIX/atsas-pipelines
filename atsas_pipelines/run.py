@@ -85,6 +85,14 @@ def run_with_dask(client, exec_name, input_file, prefix='test', symmetry='P1',
 
     Report bugs to <atsas@embl-hamburg.de>.
     """
+    # Check if the input file exists, is actually a file, not a directory, and
+    # has correct read permissions.
+    try:
+        with open(input_file, 'r'):
+            ...
+    except Exception as e:
+        raise e
+
     futures = []
     for i in range(n_repeats):
         future = client.submit(run_command,
