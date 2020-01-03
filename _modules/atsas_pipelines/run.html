@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>atsas_pipelines.run &mdash; ATSAS pipelines 0.0.3.post4+g001d1e7 documentation</title>
+  <title>atsas_pipelines.run &mdash; ATSAS pipelines 0.0.3.post7+gabb9734 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.3.post4+g001d1e7
+                0.0.3.post7+gabb9734
               </div>
             
           
@@ -155,7 +155,8 @@
            <div itemprop="articleBody">
             
   <h1>Source code for atsas_pipelines.run</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">subprocess</span>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
 
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">find_executable</span>
 
@@ -242,6 +243,20 @@
 
 <span class="sd">    Report bugs to &lt;atsas@embl-hamburg.de&gt;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># We have to make sure we are working with the absolute paths, as the</span>
+    <span class="c1"># relative paths may be different in the eyes of a client and the Dask</span>
+    <span class="c1"># SLURM scheduler.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">input_file</span><span class="p">):</span>
+        <span class="n">input_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+
+    <span class="c1"># Check if the input file exists, is actually a file, not a directory, and</span>
+    <span class="c1"># has correct read permissions.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">):</span>
+            <span class="o">...</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">e</span>
+
     <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_repeats</span><span class="p">):</span>
         <span class="n">future</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">run_command</span><span class="p">,</span>
