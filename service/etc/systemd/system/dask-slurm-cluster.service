@@ -1,0 +1,14 @@
+[Unit]
+Description=Dask SLURM cluster service for LIX ATSAS pipelines
+
+[Service]
+User=xf16id
+Group=lix
+SyslogIdentifier=dask-slurm-cluster
+TimeoutStartSec=0
+# Restart=always
+WorkingDirectory=/nsls2/xf16id1/experiments
+ExecStart=/usr/local/bin/dask-slurm-cluster.sh
+
+[Install]
+WantedBy=multi-user.target
