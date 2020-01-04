@@ -1,0 +1,11 @@
+#!/bin/sh
+
+tmux new-session -d 'watch -n 0.5 squeue -p lix-atsas && bash || bash'
+# && tmux set remain-on-exit on
+tmux split-window -h
+tmux selectp -t 0
+tmux split-window -v 'module load ATSAS && . /etc/profile.d/conda.sh && conda activate /GPFS/APC/mrakitin/conda_envs/atsas && ipython && bash || bash'
+tmux selectp -t 1
+tmux new-window 'htop && bash || bash'
+tmux selectw -t 0
+tmux -2 attach-session -d
