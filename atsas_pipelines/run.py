@@ -1,5 +1,8 @@
+import datetime
 import os
 import subprocess
+import time as ttime
+import uuid
 
 from .utils import find_executable
 
@@ -111,6 +114,9 @@ def run_with_dask(client, exec_name, input_file, cwd,
 
     futures = []
     for i in range(n_repeats):
+        dt = datetime.datetime.fromtimestamp(ttime.time()).isoformat()
+        uid = str(uuid.uuid4())[:8]
+        key = f'{dt}-{uid}'
         future = client.submit(run_command,
                                exec_name,
                                inputs=[input_file,
@@ -120,7 +126,7 @@ def run_with_dask(client, exec_name, input_file, cwd,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.STDOUT,
                                shell=False, check=True,
-                               cwd=cwd)
+                               cwd=cwd, key=key)
         futures.append(future)
 
     if wait:
