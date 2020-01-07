@@ -12,7 +12,7 @@ def run_command(exec_name, inputs=None, *args, **kwargs):
     ----------
     exec_name : str
         the name of the executable
-    inputs : list
+    inputs : list, optional
         input parameters to pass to the executable
 
     Returns
@@ -31,8 +31,9 @@ def run_command(exec_name, inputs=None, *args, **kwargs):
     return st
 
 
-def run_with_dask(client, exec_name, input_file, prefix='test', symmetry='P1',
-                  mode='FAST', n_repeats=1, wait=False):
+def run_with_dask(client, exec_name, input_file, cwd,
+                  prefix='test', symmetry='P1', mode='FAST', n_repeats=1,
+                  wait=False):
     """
     Run parallel jobs with Dask.
 
@@ -44,6 +45,8 @@ def run_with_dask(client, exec_name, input_file, prefix='test', symmetry='P1',
         the name of the executable
     input_file : str
         the name of the input file. Example: ``examples/IgG_0152-0159s.out``
+    cwd: str
+        current working directory for the executables
     prefix : str, optional
         dammif input: the prefix to prepend to any output filename (default:
         dammif)
@@ -100,6 +103,12 @@ def run_with_dask(client, exec_name, input_file, prefix='test', symmetry='P1',
     except Exception as e:
         raise e
 
+    if not os.path.exists(cwd) and not os.path.isdir(cwd):
+        try:
+            os.makedirs(cwd, mode=0o777, exists_ok=True)
+        except Exception:
+            raise RuntimeError(f'The directory "{cwd}" was not created.')
+
     futures = []
     for i in range(n_repeats):
         future = client.submit(run_command,
@@ -110,7 +119,8 @@ def run_with_dask(client, exec_name, input_file, prefix='test', symmetry='P1',
                                        f'--mode={mode}'],
                                stdout=subprocess.PIPE,
                                stderr=subprocess.STDOUT,
-                               shell=False, check=True)
+                               shell=False, check=True,
+                               cwd=cwd)
         futures.append(future)
 
     if wait:
