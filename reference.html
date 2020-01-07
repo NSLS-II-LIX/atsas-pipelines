@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Reference &mdash; ATSAS pipelines 0.0.3.post8+g005e2b8 documentation</title>
+  <title>Reference &mdash; ATSAS pipelines 0.0.3.post10+gb27ac37 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.0.3.post8+g005e2b8
+                0.0.3.post10+gb27ac37
               </div>
             
           
@@ -162,7 +162,7 @@
 <h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="atsas_pipelines.run.run_with_dask">
-<code class="sig-prename descclassname">atsas_pipelines.run.</code><code class="sig-name descname">run_with_dask</code><span class="sig-paren">(</span><em class="sig-param">client</em>, <em class="sig-param">exec_name</em>, <em class="sig-param">input_file</em>, <em class="sig-param">prefix='test'</em>, <em class="sig-param">symmetry='P1'</em>, <em class="sig-param">mode='FAST'</em>, <em class="sig-param">n_repeats=1</em>, <em class="sig-param">wait=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/atsas_pipelines/run.html#run_with_dask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atsas_pipelines.run.run_with_dask" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">atsas_pipelines.run.</code><code class="sig-name descname">run_with_dask</code><span class="sig-paren">(</span><em class="sig-param">client</em>, <em class="sig-param">exec_name</em>, <em class="sig-param">input_file</em>, <em class="sig-param">cwd</em>, <em class="sig-param">prefix='test'</em>, <em class="sig-param">symmetry='P1'</em>, <em class="sig-param">mode='FAST'</em>, <em class="sig-param">n_repeats=1</em>, <em class="sig-param">wait=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/atsas_pipelines/run.html#run_with_dask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#atsas_pipelines.run.run_with_dask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run parallel jobs with Dask.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -172,6 +172,8 @@
 <dt><strong>exec_name</strong><span class="classifier">str</span></dt><dd><p>the name of the executable</p>
 </dd>
 <dt><strong>input_file</strong><span class="classifier">str</span></dt><dd><p>the name of the input file. Example: <code class="docutils literal notranslate"><span class="pre">examples/IgG_0152-0159s.out</span></code></p>
+</dd>
+<dt><strong>cwd: str</strong></dt><dd><p>current working directory for the executables</p>
 </dd>
 <dt><strong>prefix</strong><span class="classifier">str, optional</span></dt><dd><p>dammif input: the prefix to prepend to any output filename (default:
 dammif)</p>
