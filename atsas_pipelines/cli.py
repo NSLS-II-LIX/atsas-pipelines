@@ -1,6 +1,6 @@
-import sys
 import argparse
 import logging
+import sys
 
 from distributed.cli.utils import check_python_3, install_signal_handlers
 from tornado.ioloop import IOLoop
@@ -8,7 +8,6 @@ from tornado.ioloop import IOLoop
 from .dask import (DEFAULT_ADDRESS, DEFAULT_MAXIMUM_WORKERS, DEFAULT_MEMORY,
                    DEFAULT_MINIMUM_WORKERS, DEFAULT_NUM_CORES, DEFAULT_PORT,
                    DEFAULT_QUEUE, dask_slurm_cluster)
-
 
 logger = logging.getLogger('atsas-pipelines')
 
@@ -53,9 +52,12 @@ def run_cluster():
 
     cluster = dask_slurm_cluster(**args.__dict__)
 
-    logger.setLevel(logging.DEBUG)
+    # Try to use dask's "distributed" logger.
+    logger = logging.getLogger('distributed')
+
+    logger.setLevel(logging.INFO)
     handler = logging.StreamHandler(sys.stdout)
-    handler.setLevel(logging.DEBUG)
+    handler.setLevel(logging.INFO)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
