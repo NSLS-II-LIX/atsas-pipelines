@@ -1,3 +1,4 @@
+import sys
 import argparse
 import logging
 
@@ -8,7 +9,8 @@ from .dask import (DEFAULT_ADDRESS, DEFAULT_MAXIMUM_WORKERS, DEFAULT_MEMORY,
                    DEFAULT_MINIMUM_WORKERS, DEFAULT_NUM_CORES, DEFAULT_PORT,
                    DEFAULT_QUEUE, dask_slurm_cluster)
 
-logger = logging.getLogger("atsas-pipelines")
+
+logger = logging.getLogger('atsas-pipelines')
 
 
 def run_cluster():
@@ -51,7 +53,14 @@ def run_cluster():
 
     cluster = dask_slurm_cluster(**args.__dict__)
 
-    print(f'Starting cluster {cluster.__repr__()}\n{args.__dict__}')
+    logger.setLevel(logging.DEBUG)
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    logger.info(f'Starting cluster {cluster.__repr__()}\n{args.__dict__}')
 
     loop = IOLoop.current()
     install_signal_handlers(loop)
@@ -63,9 +72,8 @@ def run_cluster():
     try:
         loop.run_sync(run)
     finally:
+        logger.info(f'End cluster {cluster.__repr__()}')
         cluster.close()
-
-    print(f'End cluster {cluster.__repr__()}')
 
 
 def go():
