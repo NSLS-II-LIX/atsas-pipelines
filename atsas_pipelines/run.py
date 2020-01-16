@@ -79,7 +79,7 @@ def run_with_dask(client, inputs, cwd,
          'prefix': 'test',
          'format': '02d',
          'input_file': '/nsls2/xf16id1/experiments/2019-1/301525/303773/mut3_20mgml_230-249s.out'},
-        {'damaver': []},
+        {'damaver': {'automatic'},
         ]
     """
     # dammif
@@ -110,6 +110,18 @@ def run_with_dask(client, inputs, cwd,
             futures = client.gather(futures)
 
     # damaver
-    # TODO: implement the command here
+    for elem in inputs:
+      if elem['exec'] == 'damaver':
+        future = client.submit(run_command,
+                                elem['exec'],
+                                inputs=[futures_dict['pdb_file'],
+                                        elem['automatic']
+                                ],
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.STDOUT,
+                                shell=False, check=True,
+                                cwd=cwd, key=key)
+        futures.append(future)
 
+    futures=client.gather(futures)   
     return futures_dict
