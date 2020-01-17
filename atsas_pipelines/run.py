@@ -119,7 +119,7 @@ def run_with_dask(client, inputs, cwd,
 
             future = client.submit(run_command,
                                    elem['exec'],
-                                   inputs=[f"--{elem['automatic']}",
+                                   inputs=[*exec_inputs,
                                            *pdb_files],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.STDOUT,
