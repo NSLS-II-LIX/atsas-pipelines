@@ -79,26 +79,25 @@ def run_with_dask(client, inputs, cwd,
          'prefix': 'test',
          'format': '02d',
          'input_file': '/nsls2/xf16id1/experiments/2019-1/301525/303773/mut3_20mgml_230-249s.out'},
-        {'damaver': {'automatic'},
+        {'exec': 'damaver'
+         'exec_inputs': {'automatic'},
         ]
     """
-    # dammif
     for elem in inputs:
+        # dammif
         if elem['exec'] == 'dammif':
             futures = []
             futures_dict = {}
             for i in range(elem['n_repeats']):
-                dt = datetime.datetime.fromtimestamp(ttime.time()).isoformat()
-                uid = str(uuid.uuid4())[:8]
-                key = f'{dt}-{uid}'
+                key = _generate_unique_key()
                 formatted_prefix = f'{elem["prefix"]}{i:{elem["format"]}}'
                 pdb_file = os.path.join(cwd, f'{formatted_prefix}-1.pdb')
+                exec_inputs = [f'--{k}={v}' for k, v in elem['exec_inputs'].items()]
                 future = client.submit(run_command,
                                        elem['exec'],
                                        inputs=[elem['input_file'],
                                                f'--prefix={formatted_prefix}',
-                                               *[f'--{k}={v}' for k, v in elem['exec_inputs'].items()]
-                                       ],
+                                               *exec_inputs],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.STDOUT,
                                        shell=False, check=True,
@@ -109,19 +108,24 @@ def run_with_dask(client, inputs, cwd,
                                      'pdb_file': pdb_file}
             futures = client.gather(futures)
 
-    # damaver
-    for elem in inputs:
-      if elem['exec'] == 'damaver':
-        future = client.submit(run_command,
-                                elem['exec'],
-                                inputs=[futures_dict['pdb_file'],
-                                        elem['automatic']
-                                ],
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.STDOUT,
-                                shell=False, check=True,
-                                cwd=cwd, key=key)
-        futures.append(future)
+        # damaver
+        elif elem['exec'] == 'damaver':
+            key = _generate_unique_key()
+            pdb_files = [v['pdb_file'] for k, v in futures_dict.items()]
+            future = client.submit(run_command,
+                                   elem['exec'],
+                                   inputs=[f"--{elem['automatic']}",
+                                           *pdb_files],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.STDOUT,
+                                   shell=False, check=True,
+                                   cwd=cwd, key=key)
 
-    futures=client.gather(futures)   
-    return futures_dict
+    return futures_dict, future
+
+
+def _generate_unique_key():
+    dt = datetime.datetime.fromtimestamp(ttime.time()).isoformat()
+    uid = str(uuid.uuid4())[:8]
+    key = f'{dt}-{uid}'
+    return key
