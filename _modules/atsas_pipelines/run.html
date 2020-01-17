@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>atsas_pipelines.run &mdash; ATSAS pipelines 0.0.4 documentation</title>
+  <title>atsas_pipelines.run &mdash; ATSAS pipelines 0.0.4.post8+g45fad7e documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.4.post8+g45fad7e
               </div>
             
           
@@ -192,105 +192,110 @@
     <span class="k">return</span> <span class="n">st</span>
 
 
-<div class="viewcode-block" id="run_with_dask"><a class="viewcode-back" href="../../reference.html#atsas_pipelines.run.run_with_dask">[docs]</a><span class="k">def</span> <span class="nf">run_with_dask</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">exec_name</span><span class="p">,</span> <span class="n">input_file</span><span class="p">,</span> <span class="n">cwd</span><span class="p">,</span>
-                  <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">symmetry</span><span class="o">=</span><span class="s1">&#39;P1&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;FAST&#39;</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                  <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="run_with_dask"><a class="viewcode-back" href="../../reference.html#atsas_pipelines.run.run_with_dask">[docs]</a><span class="k">def</span> <span class="nf">run_with_dask</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">cwd</span><span class="p">,</span>
+                  <span class="c1"># exec_name, input_file, cwd,</span>
+                  <span class="c1"># prefix=&#39;test&#39;, symmetry=&#39;P1&#39;, mode=&#39;FAST&#39;, n_repeats=1,</span>
+                  <span class="c1"># wait=False):</span>
+                  <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run parallel jobs with Dask.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    client : dask.distributed.Client</span>
+<span class="sd">    client: dask.distributed.Client</span>
 <span class="sd">        an instance of the Dask client</span>
-<span class="sd">    exec_name : str</span>
-<span class="sd">        the name of the executable</span>
-<span class="sd">    input_file : str</span>
-<span class="sd">        the name of the input file. Example: ``examples/IgG_0152-0159s.out``</span>
-<span class="sd">    cwd: str</span>
-<span class="sd">        current working directory for the executables</span>
-<span class="sd">    prefix : str, optional</span>
-<span class="sd">        dammif input: the prefix to prepend to any output filename (default:</span>
-<span class="sd">        dammif)</span>
-<span class="sd">    symmetry : str, optional</span>
-<span class="sd">        dammif input: particle symmetry</span>
-<span class="sd">    mode : str, optional</span>
-<span class="sd">        dammif input: one of: FAST, SLOW, INTERACTIVE (default: interactive)</span>
-<span class="sd">    n_repeats : int, optional</span>
-<span class="sd">        a number of repeats of a simulation (to collect statistics, the</span>
-<span class="sd">        randomness is comming from the program itself)</span>
-<span class="sd">    wait : bool, optional</span>
-<span class="sd">        wait until all the jobs are finished</span>
-
-<span class="sd">    dammif help</span>
-<span class="sd">    -----------</span>
-<span class="sd">    $ dammif --help</span>
-<span class="sd">    Usage: dammif [OPTIONS] &lt;GNOMFILE&gt;</span>
-
-<span class="sd">    rapid ab-initio shape determination in small-angle scattering</span>
-
-<span class="sd">    Known Arguments:</span>
-<span class="sd">    GNOMFILE                   GNOM output file with the data to fit</span>
-
-<span class="sd">    Known Options:</span>
-<span class="sd">    -h, --help                 Print usage information and exit</span>
-<span class="sd">    -v, --version              Print version information and exit</span>
-<span class="sd">    -q, --quiet                Reduce verbosity level</span>
-<span class="sd">      --seed=&lt;INT&gt;           Set the seed for the random number generator</span>
-<span class="sd">    -c, --chained              enable building of pseudo-chains in PDB output</span>
-<span class="sd">    -u, --unit=&lt;UNIT&gt;          ANGSTROM, NANOMETRE or UNKNOWN (default: unknown)</span>
-<span class="sd">    -p, --prefix=&lt;PREFIX&gt;      the PREFIX to prepend to any output filename (default: dammif)</span>
-<span class="sd">    -a, --anisometry=&lt;O|P&gt;     Particle anisometry (Oblate/Prolate)</span>
-<span class="sd">    -s, --symmetry=&lt;PXY&gt;       Particle symmetry</span>
-<span class="sd">    -m, --mode=&lt;MODE&gt;          one of: FAST, SLOW, INTERACTIVE (default: interactive)</span>
-<span class="sd">      --omit-solvent         omit output of solvent in PREFIX-0.pdb</span>
-<span class="sd">      --constant=&lt;VALUE&gt;     constant to subtract, 0 to disable constant subtraction (automatic if undefined)</span>
-<span class="sd">      --max-bead-count=&lt;VALUEmaximum number of beads in search space (unlimited if undefined)</span>
-
-<span class="sd">    Mandatory arguments to long options are mandatory for short options too.</span>
-
-<span class="sd">    Report bugs to &lt;atsas@embl-hamburg.de&gt;.</span>
+<span class="sd">    inputs: list</span>
+<span class="sd">        a list of dictionaries with the input parameters, i.e. the key will be</span>
+<span class="sd">        the executable name, and the values will be lists of parameters</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># We have to make sure we are working with the absolute paths, as the</span>
-    <span class="c1"># relative paths may be different in the eyes of a client and the Dask</span>
-    <span class="c1"># SLURM scheduler.</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">input_file</span><span class="p">):</span>
-        <span class="n">input_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    # We have to make sure we are working with the absolute paths, as the</span>
+<span class="sd">    # relative paths may be different in the eyes of a client and the Dask</span>
+<span class="sd">    # SLURM scheduler.</span>
+<span class="sd">    if not os.path.isabs(input_file):</span>
+<span class="sd">        input_file = os.path.abspath(input_file)</span>
 
-    <span class="c1"># Check if the input file exists, is actually a file, not a directory, and</span>
-    <span class="c1"># has correct read permissions.</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">):</span>
-            <span class="o">...</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">e</span>
+<span class="sd">    # Check if the input file exists, is actually a file, not a directory, and</span>
+<span class="sd">    # has correct read permissions.</span>
+<span class="sd">    try:</span>
+<span class="sd">        with open(input_file, &#39;r&#39;):</span>
+<span class="sd">            ...</span>
+<span class="sd">    except Exception as e:</span>
+<span class="sd">        raise e</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">cwd</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cwd</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o777</span><span class="p">,</span> <span class="n">exists_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The directory &quot;</span><span class="si">{cwd}</span><span class="s1">&quot; was not created.&#39;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    # [</span>
+<span class="sd">        {&#39;exec&#39;: &#39;dammif&#39;,</span>
+<span class="sd">         &#39;exec_inputs&#39;: {&#39;symmetry&#39;: &#39;P1&#39;, &#39;mode&#39;: &#39;FAST&#39;},</span>
+<span class="sd">         &#39;n_repeats&#39;: 20,</span>
+<span class="sd">         &#39;prefix&#39;: &#39;test&#39;,</span>
+<span class="sd">         &#39;format&#39;: &#39;02d&#39;,</span>
+<span class="sd">         &#39;input_file&#39;: &#39;/nsls2/xf16id1/experiments/2019-1/301525/303773/mut3_20mgml_230-249s.out&#39;},</span>
+<span class="sd">        {&#39;exec&#39;: &#39;damaver&#39;</span>
+<span class="sd">         &#39;exec_inputs&#39;: {&#39;automatic&#39;: None},</span>
+<span class="sd">        ]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+        <span class="c1"># dammif</span>
+        <span class="k">if</span> <span class="n">elem</span><span class="p">[</span><span class="s1">&#39;exec&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dammif&#39;</span><span class="p">:</span>
+            <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">futures_dict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">elem</span><span class="p">[</span><span class="s1">&#39;n_repeats&#39;</span><span class="p">]):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">_generate_unique_key</span><span class="p">()</span>
+                <span class="n">exec_inputs</span> <span class="o">=</span> <span class="n">_construct_inputs</span><span class="p">(</span><span class="n">elem</span><span class="p">[</span><span class="s1">&#39;exec_inputs&#39;</span><span class="p">])</span>
 
-    <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_repeats</span><span class="p">):</span>
-        <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ttime</span><span class="o">.</span><span class="n">time</span><span class="p">())</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
-        <span class="n">uid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())[:</span><span class="mi">8</span><span class="p">]</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{dt}</span><span class="s1">-</span><span class="si">{uid}</span><span class="s1">&#39;</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">run_command</span><span class="p">,</span>
-                               <span class="n">exec_name</span><span class="p">,</span>
-                               <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">input_file</span><span class="p">,</span>
-                                       <span class="sa">f</span><span class="s1">&#39;--prefix=</span><span class="si">{prefix}{i:02d}</span><span class="s1">&#39;</span><span class="p">,</span>
-                                       <span class="sa">f</span><span class="s1">&#39;--symmetry=</span><span class="si">{symmetry}</span><span class="s1">&#39;</span><span class="p">,</span>
-                                       <span class="sa">f</span><span class="s1">&#39;--mode=</span><span class="si">{mode}</span><span class="s1">&#39;</span><span class="p">],</span>
-                               <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-                               <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
-                               <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                               <span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
-        <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">future</span><span class="p">)</span>
+                <span class="n">formatted_prefix</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{elem[&quot;prefix&quot;]}</span><span class="s1">{i:</span><span class="si">{elem[&quot;format&quot;]}</span><span class="s1">}&#39;</span>
+                <span class="n">pdb_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cwd</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{formatted_prefix}</span><span class="s1">-1.pdb&#39;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">wait</span><span class="p">:</span>
-        <span class="n">futures</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">futures</span><span class="p">)</span>
+                <span class="n">future</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">run_command</span><span class="p">,</span>
+                                       <span class="n">elem</span><span class="p">[</span><span class="s1">&#39;exec&#39;</span><span class="p">],</span>
+                                       <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">elem</span><span class="p">[</span><span class="s1">&#39;input_file&#39;</span><span class="p">],</span>
+                                               <span class="sa">f</span><span class="s1">&#39;--prefix=</span><span class="si">{formatted_prefix}</span><span class="s1">&#39;</span><span class="p">,</span>
+                                               <span class="o">*</span><span class="n">exec_inputs</span><span class="p">],</span>
+                                       <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                                       <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
+                                       <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                       <span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+                <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">future</span><span class="p">)</span>
+                <span class="n">futures_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;future&#39;</span><span class="p">:</span> <span class="n">future</span><span class="p">,</span>
+                                     <span class="s1">&#39;formatted_prefix&#39;</span><span class="p">:</span> <span class="n">formatted_prefix</span><span class="p">,</span>
+                                     <span class="s1">&#39;pdb_file&#39;</span><span class="p">:</span> <span class="n">pdb_file</span><span class="p">}</span>
+            <span class="n">futures</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">futures</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">futures</span></div>
+        <span class="c1"># damaver</span>
+        <span class="k">elif</span> <span class="n">elem</span><span class="p">[</span><span class="s1">&#39;exec&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;damaver&#39;</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">_generate_unique_key</span><span class="p">()</span>
+            <span class="n">exec_inputs</span> <span class="o">=</span> <span class="n">_construct_inputs</span><span class="p">(</span><span class="n">elem</span><span class="p">[</span><span class="s1">&#39;exec_inputs&#39;</span><span class="p">])</span>
+
+            <span class="n">pdb_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;pdb_file&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">futures_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+
+            <span class="n">future</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">run_command</span><span class="p">,</span>
+                                   <span class="n">elem</span><span class="p">[</span><span class="s1">&#39;exec&#39;</span><span class="p">],</span>
+                                   <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">exec_inputs</span><span class="p">,</span>
+                                           <span class="o">*</span><span class="n">pdb_files</span><span class="p">],</span>
+                                   <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                                   <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
+                                   <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                   <span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">futures_dict</span><span class="p">,</span> <span class="n">future</span></div>
+
+
+<span class="k">def</span> <span class="nf">_construct_inputs</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;--</span><span class="si">{k}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;--</span><span class="si">{k}</span><span class="s1">=</span><span class="si">{v}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+
+
+<span class="k">def</span> <span class="nf">_generate_unique_key</span><span class="p">():</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ttime</span><span class="o">.</span><span class="n">time</span><span class="p">())</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+    <span class="n">uid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())[:</span><span class="mi">8</span><span class="p">]</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{dt}</span><span class="s1">-</span><span class="si">{uid}</span><span class="s1">&#39;</span>
+    <span class="k">return</span> <span class="n">key</span>
 </pre></div>
 
            </div>
