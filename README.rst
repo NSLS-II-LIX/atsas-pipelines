@@ -12,4 +12,4 @@ ATSAS pipelines
 ATSAS pipelines for the NSLS-II LIX beamline
 
 * Free software: 3-clause BSD license
-* Documentation: https://mrakitin.github.io/atsas-pipelines.
+* Documentation: https://nsls-ii-lix.github.io/atsas-pipelines.
